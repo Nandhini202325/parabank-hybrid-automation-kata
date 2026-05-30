@@ -1,16 +1,31 @@
 package com.parabank.utils;
 
+import com.parabank.constants.FrameworkConstants;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-public class BrowserManager {
+public final class BrowserManager {
 
-    public static WebDriver launchBrowser() {
+    private BrowserManager() {
+    }
 
-        WebDriver driver = new ChromeDriver();
+    public static WebDriver createDriver() {
 
-        driver.manage().window().maximize();
+        String browser =
+                ConfigReader.getProperty(
+                        FrameworkConstants.BROWSER
+                );
 
-        return driver;
+        validateBrowser(browser);
+
+        return BrowserFactory.getBrowser(browser);
+    }
+
+    private static void validateBrowser(String browser) {
+
+        if (browser == null || browser.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Browser configuration is missing."
+            );
+        }
     }
 }

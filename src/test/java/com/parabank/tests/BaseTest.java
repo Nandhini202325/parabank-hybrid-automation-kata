@@ -1,6 +1,7 @@
 package com.parabank.tests;
 
 import com.parabank.base.DriverFactory;
+import com.parabank.constants.FrameworkConstants;
 import com.parabank.utils.BrowserManager;
 import com.parabank.utils.ConfigReader;
 import org.openqa.selenium.WebDriver;
@@ -14,12 +15,12 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() {
 
-        driver = BrowserManager.launchBrowser();
+        driver = BrowserManager.createDriver();
 
         DriverFactory.setDriver(driver);
 
         driver.get(
-                ConfigReader.getProperty("base.url")
+                ConfigReader.getProperty(FrameworkConstants.BASE_URL)
         );
     }
 
