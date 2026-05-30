@@ -3,13 +3,16 @@ package com.parabank.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class SmokeTest {
+public class SmokeTest extends BaseTest {
 
     @Test
     public void verifyFrameworkSetup() {
 
-        System.out.println("Framework setup successful");
+        String actualTitle = driver.getTitle();
 
-        Assert.assertTrue(true);
+        Assert.assertTrue(
+                actualTitle.contains("ParaBank"),
+                "Page title does not contain ParaBank"
+        );
     }
 }
