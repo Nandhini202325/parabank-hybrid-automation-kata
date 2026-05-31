@@ -13,4 +13,8 @@ public class FrameworkConstants {
 
     public static final String EXPLICIT_WAIT = "explicit.wait";
 
+    public static final String DEFAULT_USERNAME = "default.username";
+
+    public static final String DEFAULT_PASSWORD = "default.password";
+
 }

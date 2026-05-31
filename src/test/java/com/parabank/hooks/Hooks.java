@@ -9,11 +9,10 @@ import org.openqa.selenium.WebDriver;
 
 public class Hooks {
 
-    @Before
+    @Before("@ui")
     public void setup() {
 
-        WebDriver driver =
-                BrowserManager.createDriver();
+        WebDriver driver = BrowserManager.createDriver();
 
         DriverFactory.setDriver(driver);
 
@@ -22,11 +21,12 @@ public class Hooks {
         driver.get(FrameworkConfig.getBaseUrl());
     }
 
-    @After
+    @After("@ui")
     public void teardown() {
 
         if (DriverFactory.getDriver() != null) {
             DriverFactory.getDriver().quit();
+            DriverFactory.setDriver(null);
         }
     }
 }

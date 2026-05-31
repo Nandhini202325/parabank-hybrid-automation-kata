@@ -1,7 +1,6 @@
 package com.parabank.apiTests;
 
 import com.parabank.api.CustomerApiClient;
-import com.parabank.utils.TestDataReader;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,14 +12,15 @@ public class CustomerApiTest {
 
         CustomerApiClient customerApiClient = new CustomerApiClient();
 
-        int customerId = Integer.parseInt(
-                TestDataReader.getProperty("customer.id"));
+        Response loginResponse = customerApiClient.login("john", "demo");
+        Assert.assertEquals(loginResponse.getStatusCode(), 200,
+                "Login failed — cannot proceed with getCustomer test");
 
-        Response response = customerApiClient.getCustomer(customerId);
+        int customerId = loginResponse.jsonPath().getInt("id");
 
-        Assert.assertEquals(
-                response.getStatusCode(),
-                200
-        );
+        Response getCustomerResponse = customerApiClient.getCustomer(customerId);
+
+        Assert.assertEquals(getCustomerResponse.getStatusCode(), 200,
+                "Expected 200 for customer ID: " + customerId);
     }
 }

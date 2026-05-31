@@ -1,11 +1,16 @@
 package com.parabank.pages;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private static final By USERNAME = By.name("username");
 
@@ -16,12 +21,14 @@ public class LoginPage {
     private static final By REGISTER_LINK = By.linkText("Register");
 
     public LoginPage(WebDriver driver) {
+
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void login(String username, String password) {
 
-        driver.findElement(USERNAME).sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(USERNAME)).sendKeys(username);
 
         driver.findElement(PASSWORD).sendKeys(password);
 
@@ -29,6 +36,7 @@ public class LoginPage {
     }
 
     public void clickRegisterLink() {
-        driver.findElement(REGISTER_LINK).click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(REGISTER_LINK)).click();
     }
 }
