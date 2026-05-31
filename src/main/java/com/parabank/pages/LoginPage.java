@@ -13,6 +13,8 @@ public class LoginPage {
 
     private static final By LOGIN_BUTTON = By.cssSelector("input[value='Log In']");
 
+    private static final By REGISTER_LINK = By.linkText("Register");
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -24,5 +26,9 @@ public class LoginPage {
         driver.findElement(PASSWORD).sendKeys(password);
 
         driver.findElement(LOGIN_BUTTON).click();
+    }
+
+    public void clickRegisterLink() {
+        driver.findElement(REGISTER_LINK).click();
     }
 }

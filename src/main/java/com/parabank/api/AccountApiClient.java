@@ -1,5 +1,6 @@
 package com.parabank.api;
 
+import com.parabank.utils.FrameworkConfig;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
@@ -9,6 +10,7 @@ public class AccountApiClient {
 
         return RestAssured
                 .given()
+                .baseUri(FrameworkConfig.getApiBaseUrl())
                 .log().all()
                 .when()
                 .get("/accounts/" + accountId)

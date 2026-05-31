@@ -13,5 +13,4 @@ public class FrameworkConstants {
 
     public static final String EXPLICIT_WAIT = "explicit.wait";
 
-
 }

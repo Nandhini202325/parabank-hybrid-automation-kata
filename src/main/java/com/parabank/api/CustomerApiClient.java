@@ -8,13 +8,40 @@ public class CustomerApiClient {
 
     public Response getCustomer(int customerId) {
 
-        return RestAssured.
-                given().
-                    baseUri(FrameworkConfig.getApiBaseUrl()).
-                    log().all().
-                when().
-                    get("/customers/" + customerId).
-                then().
-                    log().all().extract().response();
+        return RestAssured
+                .given()
+                .baseUri(FrameworkConfig.getApiBaseUrl())
+                .log().all()
+                .when()
+                .get("/customers/" + customerId)
+                .then()
+                .log().all()
+                .extract().response();
+    }
+
+    public Response login(String username, String password) {
+
+        return RestAssured
+                .given()
+                .baseUri(FrameworkConfig.getApiBaseUrl())
+                .log().all()
+                .when()
+                .get("/login/" + username + "/" + password)
+                .then()
+                .log().all()
+                .extract().response();
+    }
+
+    public Response getAccountsByCustomerId(int customerId) {
+
+        return RestAssured
+                .given()
+                .baseUri(FrameworkConfig.getApiBaseUrl())
+                .log().all()
+                .when()
+                .get("/customers/" + customerId + "/accounts")
+                .then()
+                .log().all()
+                .extract().response();
     }
 }

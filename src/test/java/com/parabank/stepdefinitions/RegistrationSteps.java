@@ -45,4 +45,3 @@ public class RegistrationSteps extends BaseTest {
         tearDown();
     }
 }
-
