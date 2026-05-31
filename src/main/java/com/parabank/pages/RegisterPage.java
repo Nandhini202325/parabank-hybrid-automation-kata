@@ -1,5 +1,6 @@
 package com.parabank.pages;
 
+import com.parabank.models.Customer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -88,5 +89,32 @@ public class RegisterPage {
 
     public void clickRegisterButton() {
         driver.findElement(REGISTER_BUTTON).click();
+    }
+
+    public void registerCustomer(Customer customer) {
+
+        enterFirstName(customer.getFirstName());
+
+        enterLastName(customer.getLastName());
+
+        enterAddress(customer.getAddress());
+
+        enterCity(customer.getCity());
+
+        enterState(customer.getState());
+
+        enterZipCode(customer.getZipCode());
+
+        enterPhoneNumber(customer.getPhoneNumber());
+
+        enterSsn(customer.getSsn());
+
+        enterUsername(customer.getUsername());
+
+        enterPassword(customer.getPassword());
+
+        enterConfirmPassword(customer.getPassword());
+
+        clickRegisterButton();
     }
 }
