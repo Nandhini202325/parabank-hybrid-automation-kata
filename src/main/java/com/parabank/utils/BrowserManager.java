@@ -1,6 +1,5 @@
 package com.parabank.utils;
 
-import com.parabank.constants.FrameworkConstants;
 import org.openqa.selenium.WebDriver;
 
 public final class BrowserManager {
@@ -10,13 +9,8 @@ public final class BrowserManager {
 
     public static WebDriver createDriver() {
 
-        String browser =
-                ConfigReader.getProperty(
-                        FrameworkConstants.BROWSER
-                );
-
+        String browser = FrameworkConfig.getBrowser();
         validateBrowser(browser);
-
         return BrowserFactory.getBrowser(browser);
     }
 

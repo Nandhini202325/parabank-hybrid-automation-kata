@@ -2,9 +2,12 @@ package com.parabank.base;
 
 import org.openqa.selenium.WebDriver;
 
-public class DriverFactory {
+public final class DriverFactory {
 
     private static WebDriver driver;
+
+    private DriverFactory() {
+    }
 
     public static WebDriver getDriver() {
         return driver;
