@@ -4,13 +4,14 @@ public class TestContext {
 
     private String username;
     private String password;
-    private String accountId;
-    private String fromAccountId;
-    private String toAccountId;
-    private String transferAmount;
-    private String initialBalance;
-    private String uiBalance;
-    private String apiBalance;
+    private int accountId;
+    private int fromAccountId;
+    private int toAccountId;
+    private double transferAmount;
+    private double initialBalance;
+    private double uiBalance;
+    private double apiBalance;
+    private int customerId;
     private int apiStatusCode;
     private String apiResponseBody;
 
@@ -30,60 +31,68 @@ public class TestContext {
         this.password = password;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 
-    public String getFromAccountId() {
+    public int getFromAccountId() {
         return fromAccountId;
     }
 
-    public void setFromAccountId(String fromAccountId) {
+    public void setFromAccountId(int fromAccountId) {
         this.fromAccountId = fromAccountId;
     }
 
-    public String getToAccountId() {
+    public int getToAccountId() {
         return toAccountId;
     }
 
-    public void setToAccountId(String toAccountId) {
+    public void setToAccountId(int toAccountId) {
         this.toAccountId = toAccountId;
     }
 
-    public String getTransferAmount() {
+    public double getTransferAmount() {
         return transferAmount;
     }
 
-    public void setTransferAmount(String transferAmount) {
+    public void setTransferAmount(double transferAmount) {
         this.transferAmount = transferAmount;
     }
 
-    public String getInitialBalance() {
+    public double getInitialBalance() {
         return initialBalance;
     }
 
-    public void setInitialBalance(String initialBalance) {
+    public void setInitialBalance(double initialBalance) {
         this.initialBalance = initialBalance;
     }
 
-    public String getUiBalance() {
+    public double getUiBalance() {
         return uiBalance;
     }
 
-    public void setUiBalance(String uiBalance) {
+    public void setUiBalance(double uiBalance) {
         this.uiBalance = uiBalance;
     }
 
-    public String getApiBalance() {
+    public double getApiBalance() {
         return apiBalance;
     }
 
-    public void setApiBalance(String apiBalance) {
+    public void setApiBalance(double apiBalance) {
         this.apiBalance = apiBalance;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public int getApiStatusCode() {

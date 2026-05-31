@@ -8,7 +8,9 @@ import io.restassured.response.Response;
 public class AccountApiClient {
 
     public Response getAccountDetails(int accountId) {
-        return RestAssured.given()
+
+        return RestAssured
+                .given()
                 .baseUri(FrameworkConfig.getApiBaseUrl())
                 .accept(ContentType.JSON)
                 .log().all()

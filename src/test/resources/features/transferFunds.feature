@@ -8,7 +8,7 @@ Feature: Transfer Funds Between Accounts
     And the account balances should reflect the transfer
 
   @regression @ui
-  Scenario: Transfer with amount exceeding account balance completes successfully
+  Scenario: ParaBank UI accepts transfer amount exceeding account balance
     Given a registered customer is logged in with two accounts
     When the customer attempts to transfer an amount exceeding the balance
     Then the transfer should complete successfully
@@ -20,7 +20,7 @@ Feature: Transfer Funds Between Accounts
     Then the transfer should display an error message
 
   @regression @ui
-  Scenario: Transfer from an account to itself completes successfully
+  Scenario: ParaBank UI accepts transfer from an account to itself
     Given a registered customer is logged in with two accounts
     When the customer attempts to transfer funds to the same account
     Then the transfer should complete successfully

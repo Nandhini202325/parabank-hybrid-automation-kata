@@ -8,7 +8,7 @@ Feature: Fund Transfer via API
     And the account balance should reflect the transferred amount
 
   @regression @api
-  Scenario: Transfer exceeding account balance is accepted by the API
+  Scenario: ParaBank API accepts transfer amount exceeding account balance
     Given a customer is authenticated via API with two accounts
     When a fund transfer exceeding the account balance is requested
     Then the transfer should be processed with status 200
@@ -20,7 +20,7 @@ Feature: Fund Transfer via API
     Then the transfer should fail with an error response
 
   @regression @api
-  Scenario: Transfer with negative amount is accepted by the API
+  Scenario: ParaBank API accepts negative transfer amount
     Given a customer is authenticated via API with two accounts
     When a fund transfer with a negative amount is requested
     Then the transfer should be processed with status 200
