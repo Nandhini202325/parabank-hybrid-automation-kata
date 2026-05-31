@@ -8,22 +8,32 @@ public final class FrameworkConfig {
     }
 
     public static String getBrowser() {
+
         return ConfigReader.getProperty(FrameworkConstants.BROWSER);
     }
 
     public static String getBaseUrl() {
+
         return ConfigReader.getProperty(FrameworkConstants.UI_BASE_URL);
     }
 
     public static String getApiBaseUrl() {
+
         return ConfigReader.getProperty(FrameworkConstants.API_BASE_URL);
     }
 
+    public static boolean isHeadless() {
+
+        return Boolean.parseBoolean(ConfigReader.getProperty(FrameworkConstants.HEADLESS));
+    }
+
     public static String getDefaultUsername() {
+
         return ConfigReader.getProperty(FrameworkConstants.DEFAULT_USERNAME);
     }
 
     public static String getDefaultPassword() {
+
         return ConfigReader.getProperty(FrameworkConstants.DEFAULT_PASSWORD);
     }
 }

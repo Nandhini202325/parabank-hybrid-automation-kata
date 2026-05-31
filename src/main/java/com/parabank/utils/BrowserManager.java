@@ -11,7 +11,7 @@ public final class BrowserManager {
 
         String browser = FrameworkConfig.getBrowser();
         validateBrowser(browser);
-        return BrowserFactory.getBrowser(browser);
+        return BrowserFactory.getBrowser(browser, FrameworkConfig.isHeadless());
     }
 
     private static void validateBrowser(String browser) {
