@@ -20,7 +20,7 @@ public class FundTransferAPISteps {
 
     private final TestContext testContext;
     private final CustomerApiClient customerApiClient = ApiClientFactory.customer();
-    private final AccountApiClient accountApiClient   = ApiClientFactory.account();
+    private final AccountApiClient accountApiClient = ApiClientFactory.account();
     private final TransferApiClient transferApiClient = ApiClientFactory.transfer();
 
     public FundTransferAPISteps(TestContext testContext) {
@@ -30,9 +30,7 @@ public class FundTransferAPISteps {
     @Given("a customer is authenticated via API with two accounts")
     public void aCustomerIsAuthenticatedViaAPIWithTwoAccounts() {
 
-        Response loginResponse = customerApiClient.login(
-                FrameworkConfig.getDefaultUsername(),
-                FrameworkConfig.getDefaultPassword());
+        Response loginResponse = customerApiClient.login(FrameworkConfig.getDefaultUsername(), FrameworkConfig.getDefaultPassword());
         int customerId = loginResponse.jsonPath().getInt("id");
 
         Response accountsResponse = customerApiClient.getAccountsByCustomerId(customerId);
@@ -52,9 +50,7 @@ public class FundTransferAPISteps {
     @Given("a customer is authenticated via API with one account")
     public void aCustomerIsAuthenticatedViaAPIWithOneAccount() {
 
-        Response loginResponse = customerApiClient.login(
-                FrameworkConfig.getDefaultUsername(),
-                FrameworkConfig.getDefaultPassword());
+        Response loginResponse = customerApiClient.login(FrameworkConfig.getDefaultUsername(), FrameworkConfig.getDefaultPassword());
         int customerId = loginResponse.jsonPath().getInt("id");
 
         Response accountsResponse = customerApiClient.getAccountsByCustomerId(customerId);
@@ -66,13 +62,10 @@ public class FundTransferAPISteps {
     @When("a valid fund transfer is requested via API")
     public void aValidFundTransferIsRequestedViaAPI() {
 
-        double amount = 100.00;
+        double amount = 10.00;
         testContext.setTransferAmount(amount);
 
-        Response response = transferApiClient.transfer(
-                testContext.getFromAccountId(),
-                testContext.getToAccountId(),
-                amount);
+        Response response = transferApiClient.transfer(testContext.getFromAccountId(), testContext.getToAccountId(), amount);
 
         testContext.setApiStatusCode(response.getStatusCode());
         testContext.setApiResponseBody(response.getBody().asString());
@@ -84,10 +77,7 @@ public class FundTransferAPISteps {
         double amount = 999999.99;
         testContext.setTransferAmount(amount);
 
-        Response response = transferApiClient.transfer(
-                testContext.getFromAccountId(),
-                testContext.getToAccountId(),
-                amount);
+        Response response = transferApiClient.transfer(testContext.getFromAccountId(), testContext.getToAccountId(), amount);
 
         testContext.setApiStatusCode(response.getStatusCode());
         testContext.setApiResponseBody(response.getBody().asString());
@@ -96,10 +86,7 @@ public class FundTransferAPISteps {
     @When("a fund transfer to a non-existent account is requested")
     public void aFundTransferToNonExistentAccountIsRequested() {
 
-        Response response = transferApiClient.transfer(
-                testContext.getFromAccountId(),
-                99999999,
-                100.00);
+        Response response = transferApiClient.transfer(testContext.getFromAccountId(), 99999999, 100.00);
 
         testContext.setApiStatusCode(response.getStatusCode());
         testContext.setApiResponseBody(response.getBody().asString());
@@ -108,10 +95,7 @@ public class FundTransferAPISteps {
     @When("a fund transfer with a negative amount is requested")
     public void aFundTransferWithNegativeAmountIsRequested() {
 
-        Response response = transferApiClient.transfer(
-                testContext.getFromAccountId(),
-                testContext.getToAccountId(),
-                -50.00);
+        Response response = transferApiClient.transfer(testContext.getFromAccountId(), testContext.getToAccountId(), -50.00);
 
         testContext.setApiStatusCode(response.getStatusCode());
         testContext.setApiResponseBody(response.getBody().asString());
@@ -120,15 +104,13 @@ public class FundTransferAPISteps {
     @Then("the transfer should succeed with status 200")
     public void theTransferShouldSucceedWithStatus200() {
 
-        Assert.assertEquals(testContext.getApiStatusCode(), 200,
-                "Expected transfer to succeed with 200 but got: " + testContext.getApiStatusCode());
+        Assert.assertEquals(testContext.getApiStatusCode(), 200, "Expected transfer to succeed with 200 but got: " + testContext.getApiStatusCode());
     }
 
     @Then("the transfer should be processed with status 200")
     public void theTransferShouldBeProcessedWithStatus200() {
 
-        Assert.assertEquals(testContext.getApiStatusCode(), 200,
-                "Expected transfer API to return 200 but got: " + testContext.getApiStatusCode());
+        Assert.assertEquals(testContext.getApiStatusCode(), 200, "Expected transfer API to return 200 but got: " + testContext.getApiStatusCode());
     }
 
     @And("the account balance should reflect the transferred amount")
@@ -138,15 +120,15 @@ public class FundTransferAPISteps {
         double currentBalance = response.jsonPath().getDouble("balance");
         double expectedBalance = testContext.getInitialBalance() - testContext.getTransferAmount();
 
-        Assert.assertEquals(currentBalance, expectedBalance, 0.01,
-                "Account balance did not reflect the API transfer");
+        String assertionMessage = String.format("Account balance did not reflect the API transfer. Initial balance: %.2f, " + "Transfer amount: %.2f, Expected balance: %.2f, Actual balance: %.2f", testContext.getInitialBalance(), testContext.getTransferAmount(), expectedBalance, currentBalance);
+
+        Assert.assertEquals(currentBalance, expectedBalance, 0.01, assertionMessage);
     }
 
     @Then("the transfer should fail with an error response")
     public void theTransferShouldFailWithAnErrorResponse() {
 
-        Assert.assertNotEquals(testContext.getApiStatusCode(), 200,
-                "Expected an error response but the transfer succeeded with 200");
+        Assert.assertNotEquals(testContext.getApiStatusCode(), 200, "Expected an error response but the transfer succeeded with 200");
     }
 
     private int getOrCreateSecondAccount(int customerId, List<Map<String, Object>> accounts, int firstAccountId) {
@@ -156,16 +138,14 @@ public class FundTransferAPISteps {
         }
 
         Response createResponse = transferApiClient.createAccount(customerId, firstAccountId);
-        Assert.assertEquals(createResponse.getStatusCode(), 200,
-                "Expected second account creation to return 200 but got: " + createResponse.getStatusCode());
+        Assert.assertEquals(createResponse.getStatusCode(), 200, "Expected second account creation to return 200 but got: " + createResponse.getStatusCode());
         return createResponse.jsonPath().getInt("id");
     }
 
     private int getAccountId(List<Map<String, Object>> accounts, int index) {
 
         Object accountId = accounts.get(index).get("id");
-        Assert.assertTrue(accountId instanceof Number,
-                "Expected account id at index " + index + " but got: " + accountId);
+        Assert.assertTrue(accountId instanceof Number, "Expected account id at index " + index + " but got: " + accountId);
         return ((Number) accountId).intValue();
     }
 }

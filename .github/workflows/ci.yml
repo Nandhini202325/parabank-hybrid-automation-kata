@@ -14,8 +14,21 @@ permissions:
 
 jobs:
   test:
-    name: Maven tests
+    name: ${{ matrix.test_type }} tests
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - test_type: API
+            tag: "@api"
+            report_name: api-cucumber-reports
+            surefire_name: api-surefire-reports
+          - test_type: UI
+            tag: "@ui"
+            report_name: ui-cucumber-reports
+            surefire_name: ui-surefire-reports
 
     steps:
       - name: Checkout repository
@@ -28,29 +41,29 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Run tests
-        run: mvn -B clean test -Dheadless=true
+      - name: Run ${{ matrix.test_type }} tests
+        run: mvn -B clean test -Dheadless=true -Dcucumber.filter.tags="${{ matrix.tag }}"
 
-      - name: Upload Cucumber reports
+      - name: Upload ${{ matrix.test_type }} Cucumber reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-reports
+          name: ${{ matrix.report_name }}
           path: target/cucumber-reports/**
           if-no-files-found: ignore
 
-      - name: Upload Surefire reports
+      - name: Upload ${{ matrix.test_type }} Surefire reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: surefire-reports
+          name: ${{ matrix.surefire_name }}
           path: target/surefire-reports/**
           if-no-files-found: ignore
 
-      - name: Upload failure screenshots
+      - name: Upload ${{ matrix.test_type }} failure screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: failure-screenshots
+          name: ${{ matrix.test_type }}-failure-screenshots
           path: target/screenshots/**
           if-no-files-found: ignore

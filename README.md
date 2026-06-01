@@ -1,8 +1,20 @@
-# ParaBank Hybrid Automation Framework
+# ParaBank Hybrid Automation Kata
 
-## Overview
+This project is a hybrid automation framework for ParaBank. It uses Selenium WebDriver for UI tests, REST Assured for API tests, Cucumber for BDD scenarios, and TestNG for execution and assertions.
 
-This project demonstrates a hybrid test automation framework for ParaBank using UI and API automation.
+## Prerequisites
+
+- Java 17
+- Maven 3.x
+- Google Chrome browser for UI tests
+- Git
+
+Verify the tools before running the tests:
+
+bash
+java -version
+mvn -version
+git --version
 
 The framework follows common automation design patterns and practices:
 
@@ -39,76 +51,107 @@ src/
     resources/
 ```
 
-## Reports and Screenshots
+## Clone the Repository
 
-Run the full suite:
+bash
+git clone https://github.com/Nandhini202325/parabank-hybrid-automation-kata.git
 
-```bash
-mvn clean test
-```
+cd parabank-hybrid-automation-kata
 
-Generated artifacts:
 
-- Cucumber HTML report: `target/cucumber-reports/cucumber.html`
-- Cucumber JSON report: `target/cucumber-reports/cucumber.json`
-- Cucumber JUnit report: `target/cucumber-reports/cucumber.xml`
-- Surefire/TestNG reports: `target/surefire-reports`
-- Failure screenshots: `target/screenshots`
+## Configuration
 
-Screenshots are captured only for failed UI scenarios and are attached to the Cucumber HTML report.
+The main runtime configuration is available in:
 
-## Running Tests by Tag
+src/main/resources/config.properties
 
-Run smoke tests:
 
-```bash
-mvn clean test -Dcucumber.filter.tags="@smoke"
-```
+Default values:
 
-Run regression tests:
 
-```bash
-mvn clean test -Dcucumber.filter.tags="@regression"
-```
+ui.base.url=https://parabank.parasoft.com/parabank
 
-Run API tests:
+api.base.url=https://parabank.parasoft.com/parabank/services/bank
 
-```bash
-mvn clean test -Dcucumber.filter.tags="@api"
-```
+browser=chrome
 
-Run UI tests:
+headless=false
 
-```bash
-mvn clean test -Dcucumber.filter.tags="@ui"
-```
 
-Run smoke API tests:
+For CI or headless execution, pass:
 
-```bash
-mvn clean test -Dcucumber.filter.tags="@smoke and @api"
-```
-
-Run headless tag tests on Windows PowerShell:
-
-```powershell
-mvn clean test '-Dheadless=true' '-Dcucumber.filter.tags=@smoke'
-```
-
-## GitHub Actions CI/CD
-
-The GitHub Actions workflow is defined in `.github/workflows/ci.yml`.
-
-It runs on pushes and pull requests to `main`, and it can also be started manually from the Actions tab.
-
-The workflow runs:
-
-```bash
+bash
 mvn clean test -Dheadless=true
-```
 
-The workflow uploads Cucumber reports, Surefire reports, and failed-step screenshots as build artifacts.
 
-## Author
+## Run Tests
 
-Nandhini
+Run the complete suite:
+
+bash
+mvn clean test
+
+
+Run only API scenarios:
+
+bash
+mvn clean test -Dcucumber.filter.tags="@api"
+
+
+Run only UI scenarios:
+
+bash
+mvn clean test -Dcucumber.filter.tags="@ui"
+
+
+Run regression scenarios:
+
+bash
+mvn clean test -Dcucumber.filter.tags="@regression"
+
+
+## Test Reports
+
+After execution, reports are generated under:
+
+
+target/cucumber-reports/cucumber.html
+
+target/cucumber-reports/cucumber.json
+
+target/cucumber-reports/cucumber.xml
+
+target/surefire-reports/index.html
+
+target/surefire-reports/emailable-report.html
+
+
+For separate API and UI evidence, run the API and UI commands separately and save each generated report before running the next command, because the default report files are overwritten on each Maven run.
+
+Suggested report names for submission:
+
+
+API report: target/cucumber-reports/cucumber.html after running -Dcucumber.filter.tags="@api"
+
+UI report: target/cucumber-reports/cucumber.html after running -Dcucumber.filter.tags="@ui"
+
+Sample Report
+
+![img.png](img.png)
+
+
+Failure screenshots for UI scenarios are saved under:
+
+
+target/screenshots
+
+
+## CI
+
+GitHub Actions is configured in:
+
+.github/workflows/ci.yml
+
+
+The workflow runs Maven tests with Java 17 and uploads Cucumber reports, Surefire reports, and failure screenshots as artifacts.
+ 
